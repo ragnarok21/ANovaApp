@@ -15,9 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity"
+        <activity
+            android:name=".IndexActivity"
             android:label="@string/saludo"
-            android:theme="@style/AppTheme.ActionBar"></activity>
+            android:theme="@style/AppTheme.ActionBar" />
+        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>
