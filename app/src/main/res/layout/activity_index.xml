@@ -10,21 +10,74 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="anova.com.anova.IndexActivity">
 
-    <Button
-        android:text="Click aqui para ver la magia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="144dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="34dp">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="66dp"
-        android:id="@+id/textView" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tituloSesion"
+            tools:ignore="HardcodedText"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"
+            android:text="@string/tituloSesion" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/nombreUsuario"
+            tools:ignore="HardcodedText"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/apellidoUsuario"
+            tools:ignore="HardcodedText"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/button"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/emailUsuario"
+            tools:ignore="HardcodedText"
+            android:textSize="24sp"
+            android:textAlignment="viewStart"/>
+
+        <Button
+            android:text="Cerrar Sesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/cerrar_sesion"
+            tools:ignore="HardcodedText" />
+
+
+        <Button
+            android:text="Click aqui para ver la magia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="144dp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
 </RelativeLayout>

@@ -22,7 +22,8 @@
         android:layout_marginTop="57dp"
         android:id="@+id/username"
         android:hint="Username"
-        android:background="@android:color/background_light" />
+        android:background="@android:color/background_light"
+        tools:ignore="HardcodedText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -34,7 +35,8 @@
         android:layout_marginTop="31dp"
         android:id="@+id/password"
         android:hint="Password"
-        android:background="@android:color/background_light" />
+        android:background="@android:color/background_light"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:text="Login"
@@ -44,5 +46,16 @@
         android:layout_marginStart="54dp"
         android:layout_below="@+id/password"
         android:layout_alignStart="@+id/password"
-        android:layout_marginTop="46dp" />
+        android:layout_marginTop="46dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:text="Registrarse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/registro"
+        android:layout_below="@+id/login"
+        android:layout_alignStart="@+id/login"
+        android:layout_marginTop="30dp"
+        tools:ignore="HardcodedText" />
 </RelativeLayout>

@@ -2,4 +2,6 @@
     <string name="app_name">ANova</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="saludo">Bienvenidos</string>
+    <string name="textoRegistro">Registro de Usuario</string>
+    <string name="tituloSesion">Datos del Usuario</string>
 </resources>

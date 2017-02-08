@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import java.util.HashMap;
 
 import anova.com.anova.LoginActivity;
+import anova.com.anova.domain.Usuario;
 
 public class SessionManager {
     // Shared Preferences
@@ -28,8 +29,8 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
 
     // User name (make variable public to access from outside)
-    public static final String KEY_NAME = "name";
-
+    public static final String KEY_NOMBRE = "nombre";
+    public static final String KEY_APELLIDO = "apellido";
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
 
@@ -43,15 +44,17 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String name, String email){
+    public void createLoginSession(Usuario usuario){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
-        editor.putString(KEY_NAME, name);
+        editor.putString(KEY_NOMBRE, usuario.getNombre());
+
+        editor.putString(KEY_APELLIDO, usuario.getApellido());
 
         // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_EMAIL, usuario.getEmail());
 
         // commit changes
         editor.commit();
@@ -87,9 +90,10 @@ public class SessionManager {
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<>();
         // user name
-        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_NOMBRE, pref.getString(KEY_NOMBRE, null));
 
-        // user email id
+        user.put(KEY_APELLIDO, pref.getString(KEY_APELLIDO, null));
+
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
         // return user
