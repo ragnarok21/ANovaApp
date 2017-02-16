@@ -13,4 +13,14 @@
         <item>http://archive.org/download/Sintel/sintel-2048-stereo_512kb.mp4</item>
         <item>http://archive.org/download/Tears-of-Steel/tears_of_steel_720p.mp4</item>
     </string-array>
+
+    <string-array name="nav_options">
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+        <item>Option 4</item>
+        <item>Option 5</item>
+        <item>Option 6</item>
+    </string-array>
+
 </resources>
