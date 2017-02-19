@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(mainActivity,LoginActivity.class);
                     startActivity(intent);
                 }else{
-                    Intent intent = new Intent(mainActivity,IndexActivity.class);
+                    Intent intent = new Intent(mainActivity,MenuUserActivity.class);
                     startActivity(intent);
                 }
             }

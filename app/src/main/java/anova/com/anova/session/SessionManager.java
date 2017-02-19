@@ -34,6 +34,8 @@ public class SessionManager {
     // Email address (make variable public to access from outside)
     public static final String KEY_EMAIL = "email";
 
+    public static final String KEY_IMAGE = "imagen";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -55,6 +57,8 @@ public class SessionManager {
 
         // Storing email in pref
         editor.putString(KEY_EMAIL, usuario.getEmail());
+
+        editor.putString(KEY_IMAGE,"https://openclipart.org/image/2400px/svg_to_png/211821/matt-icons_preferences-desktop-personal.png");
 
         // commit changes
         editor.commit();
@@ -95,6 +99,8 @@ public class SessionManager {
         user.put(KEY_APELLIDO, pref.getString(KEY_APELLIDO, null));
 
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+
+        user.put(KEY_IMAGE, pref.getString(KEY_IMAGE, null));
 
         // return user
         return user;

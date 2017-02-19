@@ -5,6 +5,7 @@ public class Usuario {
     private Long id;
     private String nombre;
     private String apellido;
+    private String imagen_url;
     private String email;
     private String contraseña;
 
@@ -46,5 +47,13 @@ public class Usuario {
 
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
+    }
+
+    public String getImagen_url() {
+        return imagen_url;
+    }
+
+    public void setImagen_url(String imagen_url) {
+        this.imagen_url = imagen_url;
     }
 }
