@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +39,8 @@ public class MenuUserActivity extends AppCompatActivity
     private Bitmap bitmap;
     private boolean done = false;
     private Thread thread;
+    private TextView nombre_usuario;
+    private TextView email_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -70,15 +73,10 @@ public class MenuUserActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerLayout = navigationView.getHeaderView(0);
-        ImageView imageView = (ImageView) headerLayout.findViewById(R.id.imageView);
-        try {
-            bitmap = new TaskBitMap().execute(usuario.getImagen_url()).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        imageView.setImageBitmap(bitmap);
+        nombre_usuario = (TextView) headerLayout.findViewById(R.id.nombre_usuario);
+        email_usuario = (TextView) headerLayout.findViewById(R.id.email_usuario);
+        nombre_usuario.setText(usuario.getNombre()+ " "+usuario.getApellido());
+        email_usuario.setText(usuario.getEmail());
         navigationView.setNavigationItemSelectedListener(this);
     }
 
