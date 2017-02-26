@@ -1,151 +1,160 @@
 package anova.com.anova;
 
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
-public class IndexActivity extends ActionBarActivity {
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 
-    private DrawerLayout drawerLayout;
-    private ListView navList;
-    private CharSequence mTitle;
+import anova.com.anova.domain.Usuario;
+import anova.com.anova.session.SessionManager;
 
-    private ActionBarDrawerToggle drawerToggle;
+public class IndexActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SessionManager sessionManager;
+    private Bitmap bitmap;
+    private boolean done = false;
+    private Thread thread;
+    private TextView nombre_usuario;
+    private TextView email_usuario;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(this);
+        HashMap<String,String> user = sessionManager.getUserDetails();
+        final Usuario usuario = new Usuario();
+        usuario.setNombre(user.get("nombre"));
+        usuario.setApellido(user.get("apellido"));
+        usuario.setEmail(user.get("email"));
+        usuario.setImagen_url(user.get("imagen"));
         setContentView(R.layout.activity_index);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mTitle = getTitle(); // Get current title
-
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        this.navList = (ListView) findViewById(R.id.left_drawer);
-
-        // Load an array of options names
-        final String[] names = getResources().getStringArray(
-                R.array.nav_options);
-
-        // Set previous array as adapter of the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, names);
-        navList.setAdapter(adapter);
-        navList.setOnItemClickListener(new DrawerItemClickListener());
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_menu, R.string.open_drawer,
-                R.string.close_drawer) {
-
-            /**
-             * Called when a drawer has settled in a completely closed state.
-             */
-            public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
-                // creates call to onPrepareOptionsMenu()
-                supportInvalidateOptionsMenu();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
+        });
 
-            /**
-             * Called when a drawer has settled in a completely open state.
-             */
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle("Selecciona opción");
-                // creates call to onPrepareOptionsMenu()
-                supportInvalidateOptionsMenu();
-            }
-        };
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-        // Set the drawer toggle as the DrawerListener
-        drawerLayout.setDrawerListener(drawerToggle);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.getHeaderView(0);
+        nombre_usuario = (TextView) headerLayout.findViewById(R.id.nombre_usuario);
+        email_usuario = (TextView) headerLayout.findViewById(R.id.email_usuario);
+        nombre_usuario.setText(usuario.getNombre()+ " "+usuario.getApellido());
+        email_usuario.setText(usuario.getEmail());
+        navigationView.setNavigationItemSelectedListener(this);
+    }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
+    private void getBimapImagen(final String url_imagen) throws IOException {
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    URL url = null;
+                    try {
+                        url = new URL(url_imagen);
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setDoInput(true);
+                        connection.connect();
+                        InputStream input = connection.getInputStream();
+                        bitmap = BitmapFactory.decodeStream(input);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // Called by the system when the device configuration changes while your
-        // activity is running
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-        // Handle your other action bar items...
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.menu_user, menu);
         return true;
     }
 
-    /*
-     * Called whenever we call invalidateOptionsMenu()
-     */
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content
-        // view
-        boolean drawerOpen = drawerLayout.isDrawerOpen(navList);
-        menu.findItem(R.id.action_search).setVisible(!drawerOpen);
-        return super.onPrepareOptionsMenu(menu);
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-    private class DrawerItemClickListener implements
-            ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
-            selectItem(position);
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
-    /** Swaps fragments in the main content view */
-    private void selectItem(int position) {
-        // Get text from resources
-        mTitle = getResources().getStringArray(R.array.nav_options)[position];
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
 
-        // Create a new fragment and specify the option to show based on
-        // position
-        NavFragment fragment = new NavFragment();
-        Bundle args = new Bundle();
-        args.putString(fragment.KEY_TEXT, mTitle.toString());
-        fragment.setArguments(args);
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+            NavFragment fragment = new NavFragment();
+            Bundle args = new Bundle();
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.content_frame, fragment).commit();
+        } else if (id == R.id.nav_gallery) {
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.content_frame, fragment).commit();
+        } else if (id == R.id.nav_slideshow) {
 
-        // Highlight the selected item, update the title, and close the drawer
-        navList.setItemChecked(position, true);
-        getSupportActionBar().setTitle(mTitle);
-        drawerLayout.closeDrawer(navList);
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 }

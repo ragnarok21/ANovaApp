@@ -9,19 +9,13 @@ import android.widget.TextView;
 
 public class NavFragment extends Fragment {
 
-    public final static String KEY_TEXT = "key_text";
-
-    private String mText;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mText = getArguments().getString(KEY_TEXT);
-
         View v = inflater.inflate(R.layout.fragment_nav, container, false);
         TextView tv = (TextView) v.findViewById(R.id.tv_fragment);
-        tv.setText(mText);
+        tv.setText("aaaaa");
 
         return v;
     }

@@ -20,14 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".IndexActivity"
-            android:label="@string/saludo"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".MenuUserActivity"
+            android:name=".IndexActivity"
             android:label="@string/title_activity_menu_user"
             android:theme="@style/AppTheme"></activity>
     </application>

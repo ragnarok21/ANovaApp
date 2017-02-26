@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 Usuario usuario = usuarioDao.obtenerUsuario(email);
                 if(usuario != null){
                     sessionManager.createLoginSession(usuario);
-                    Intent intent = new Intent(loginActivity,MenuUserActivity.class);
+                    Intent intent = new Intent(loginActivity,IndexActivity.class);
                     startActivity(intent);
                 }else{
                     Toast.makeText(loginActivity, "Usuario no registrado", Toast.LENGTH_LONG).show();
